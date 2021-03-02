@@ -900,7 +900,7 @@ export default {
       // 图片后缀
       const types = ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'webp', 'psd', 'svg', 'tiff']
       // 文件后缀
-      const type = this.assetType(filePath)
+      const type = this.fileExtension(filePath)
       // 是否包含
       return types.indexOf(type) !== -1
     },
@@ -909,12 +909,12 @@ export default {
       // 图片后缀
       const types = ['avi', 'wmv', 'mpg', 'mpeg', 'mov', 'rm', 'ram', 'swf', 'flv', 'mp4', 'mp3', 'wma', 'avi', 'rm', 'rmvb', 'flv', 'mpg', 'mkv']
       // 文件后缀
-      const type = this.assetType(filePath)
+      const type = this.fileExtension(filePath)
       // 是否包含
       return types.indexOf(type) !== -1
     },
     // 获取文件后缀类型
-    assetType (filePath) {
+    fileExtension (filePath) {
       // 获取最后一个.的位置
       var index= filePath.lastIndexOf(".")
       // 获取后缀
