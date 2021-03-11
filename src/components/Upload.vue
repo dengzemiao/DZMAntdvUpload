@@ -375,7 +375,7 @@ export default {
               }
             }
             // 不允许上传
-            reject()
+            reject(new Error())
             return
           }
         }
@@ -411,11 +411,11 @@ export default {
                 resolve()
               }).catch(() => {
                 // 不允许上传
-                reject()
+                reject(new Error())
               })
             }).catch(() => {
               // 不允许上传
-              reject()
+              reject(new Error())
             })
           } else if (this.fileCheckMode === 2) {
             // 本次选择的所有文件，有一个检测失败，全部移除
@@ -435,11 +435,11 @@ export default {
                 resolve()
               }).catch(() => {
                 // 不允许上传
-                reject()
+                reject(new Error())
               })
             }).catch(() => {
               // 不允许上传
-              reject()
+              reject(new Error())
             })
           } else {
             // 加入文件列表
@@ -468,7 +468,7 @@ export default {
           resolve()
         }).catch(() => {
           // 不允许上传
-          reject()
+          reject(new Error())
         })
       })
     },
@@ -488,7 +488,7 @@ export default {
               resolve()
             } else {
               // 不允许上传
-              reject()
+              reject(new Error())
             }
           } else if (!!p && (typeof(p) === 'object' || typeof obj === 'function') && typeof(p.then) === 'function') {
             // 是否为 Promise
@@ -497,7 +497,7 @@ export default {
               resolve()
             }).catch(() => {
               // 不允许上传
-              reject()
+              reject(new Error())
             })
           }
         } else {
@@ -525,7 +525,7 @@ export default {
               resolve()
             } else {
               // 不允许删除
-              reject()
+              reject(new Error())
             }
           } else if (!!p && (typeof(p) === 'object' || typeof obj === 'function') && typeof(p.then) === 'function') {
             // 是否为 Promise
@@ -537,7 +537,7 @@ export default {
               resolve()
             }).catch(() => {
               // 不允许删除
-              reject()
+              reject(new Error())
             })
           }
         } else {
@@ -588,7 +588,7 @@ export default {
                 }
               }
               // 检测失败
-              reject()
+              reject(new Error())
               return
             }
           } else if (this.fileRepeatMode === 2) {
@@ -608,7 +608,7 @@ export default {
                 }
               }
               // 检测失败
-              reject()
+              reject(new Error())
               return
             }
           }
@@ -653,7 +653,7 @@ export default {
               }
             }
             // 检测失败
-            reject()
+            reject(new Error())
             return
           }
         }
@@ -699,7 +699,7 @@ export default {
                   }
                 }
                 // 检测失败
-                reject()
+                reject(new Error())
                 return
               }
             }
@@ -722,7 +722,7 @@ export default {
                   }
                 }
                 // 检测失败
-                reject()
+                reject(new Error())
                 return
               }
             }
@@ -774,7 +774,7 @@ export default {
                   }
                 }
                 // 检测失败
-                reject()
+                reject(new Error())
                 return
               }
             }
@@ -797,7 +797,7 @@ export default {
                   }
                 }
                 // 检测失败
-                reject()
+                reject(new Error())
                 return
               }
             }
