@@ -42,7 +42,7 @@ export default {
       // 上传完成
       setTimeout(() => {
         result(true)
-      }, 2000)
+      }, 2500)
     }
   }
 }
