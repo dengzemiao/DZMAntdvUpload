@@ -437,8 +437,7 @@ export default {
                 // 不允许上传
                 reject()
               })
-            }).catch((err) => {
-              console.log('1111', err)
+            }).catch(() => {
               // 不允许上传
               reject()
             })
