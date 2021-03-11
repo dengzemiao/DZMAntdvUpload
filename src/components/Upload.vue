@@ -340,6 +340,7 @@ export default {
       if (this.customRequestPro) {
         // 自定义请求 
         this.customRequestPro(data, fileJson, (isSuccess) => {
+          // uploading(上传中)、done(上传成功)、error(上传失败)
           const status = isSuccess ? 'done' : 'error'
           this.customRequestResult(fileJson, status)
         })
