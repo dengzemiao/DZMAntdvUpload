@@ -330,6 +330,23 @@ export default {
     },
   },
   methods: {
+    // 自定义上传
+    customRequest (data) {
+      // 找到对应的上传文件对象
+      const fileJson = this.fileList.find(item => {
+        return data.file.uid === item.uid
+      })
+      // 自定义上传服务器
+      if (this.customRequestPro) {
+        // 自定义请求 
+        this.customRequestPro(data, fileJson, (isSuccess) => {
+          const status = isSuccess ? 'done' : 'error'
+          this.customRequestResult(fileJson, status)
+        })
+      } else {
+        this.$message.error('请自己实现 customRequestPro 自定义上传操作！')
+      }
+    },
     // 准备上传
     beforeUpload (file, fileList) {
       // 开始检测
@@ -488,23 +505,6 @@ export default {
           resolve()
         }
       })
-    },
-    // 自定义上传
-    customRequest (data) {
-      // 找到对应的上传文件对象
-      const fileJson = this.fileList.find(item => {
-        return data.file.uid === item.uid
-      })
-      // 自定义上传服务器
-      if (this.customRequestPro) {
-        // 自定义请求 
-        this.customRequestPro(data, fileJson, (isSuccess) => {
-          const status = isSuccess ? 'done' : 'error'
-          this.customRequestResult(fileJson, status)
-        })
-      } else {
-        this.$message.error('请自己实现 customRequestPro 自定义上传操作！')
-      }
     },
     // 点击移除文件时的回调
     remove (file) {
