@@ -328,6 +328,15 @@ export default {
       type: Function,
       default: undefined
     },
+
+    // =============================== 自定义属性存放 ========
+
+    // 如果自定义上传写在本组件内部，自定义上传回调结果
+    // 类型：(isOK, fileJson) => {}
+    uploadResult: {
+      type: Function,
+      default: undefined
+    }
   },
   methods: {
     // 自定义上传
@@ -346,6 +355,8 @@ export default {
         })
       } else {
         this.$message.error('请自己实现 customRequestPro 自定义上传操作！')
+        // 如果需要将上传写到内部这里，所有需要附带出去的数据都可以放在 fileJson 里面，也可以另外附带出去
+        // if (this.uploadResult) { this.uploadResult(isOK, fileJson) }
       }
     },
     // 准备上传
