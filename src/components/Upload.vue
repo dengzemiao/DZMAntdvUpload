@@ -378,7 +378,7 @@ export default {
         //       // 输出错误
         //       // console.log('上传失败', err)
         //       // 设置为失败状态
-        //       fileJson.status = 'exception'
+        //       fileJson.status = 'error'
         //       // 回调结果
         //       if (this.uploadResult) { this.uploadResult(fileJson, err) }
         //     },
