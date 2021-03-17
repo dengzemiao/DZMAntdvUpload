@@ -332,7 +332,7 @@ export default {
     // =============================== 自定义属性存放 ========
 
     // 如果自定义上传写在本组件内部，回调结果自行决定
-    // 例如：(isOK, fileJson, err) => {}
+    // 例如：(isOK, fileJson, err || res) => {}
     uploadResult: {
       type: Function,
       default: undefined
@@ -356,7 +356,46 @@ export default {
       } else {
         this.$message.error('请自己实现 customRequestPro 自定义上传操作！')
         // 如果需要将上传写到内部这里，回调结果看情况自定义
-        // if (this.uploadResult) { this.uploadResult(isOK, fileJson, err) }
+        // if (this.uploadResult) { this.uploadResult(isOK, fileJson, err || res) }
+        // 例如：(七牛上传，给与参考，推荐将下面这段上传封装成一个公共 funcation，在需要用到重新上传按钮的操作时，可以传入指定参数重新上传)
+        // // 检查是否有文件
+        // if (data.file) {
+        //   // 转成局部属性
+        //   const that = this
+        //   // 设置为上传状态
+        //   fileJson.status = 'uploading'
+        //   // 清空上传进度
+        //   fileJson.percent = 0
+        //   // 回调对象
+        //   const observer = {
+        //     next (res) {
+        //       // 输出进度
+        //       // console.log('上传进度', res)
+        //       // 记录进度
+        //       fileJson.percent = res.total.percent
+        //     },
+        //     error (err) {
+        //       // 输出错误
+        //       // console.log('上传失败', err)
+        //       // 设置为失败状态
+        //       fileJson.status = 'exception'
+        //       // 回调结果
+        //       if (this.uploadResult) { this.uploadResult(false, fileJson, err) }
+        //     },
+        //     complete (res) {
+        //       // 输出结果
+        //       // console.log('上传成功', res)
+        //       // 设置为失败状态
+        //       fileJson.status = 'done'
+        //       // 回调结果
+        //       if (this.uploadResult) { this.uploadResult(isOK, fileJson, res) }
+        //     }
+        //   }
+        //   // 开始上传回调
+        //   if (this.uploadResult) { this.uploadResult(isOK, fileJson) }
+        //   // 开始上传
+        //   uploadOther(data.file, observer)
+        // }
       }
     },
     // 准备上传
