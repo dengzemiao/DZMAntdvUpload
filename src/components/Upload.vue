@@ -388,11 +388,11 @@ export default {
         //       // 设置为失败状态
         //       fileJson.status = 'done'
         //       // 回调结果
-        //       if (this.uploadResult) { this.uploadResult(isOK, fileJson, res) }
+        //       if (this.uploadResult) { this.uploadResult(true, fileJson, res) }
         //     }
         //   }
         //   // 开始上传回调
-        //   if (this.uploadResult) { this.uploadResult(isOK, fileJson) }
+        //   if (this.uploadResult) { this.uploadResult(true, fileJson) }
         //   // 开始上传
         //   uploadOther(data.file, observer)
         // }
