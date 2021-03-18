@@ -393,8 +393,10 @@ export default {
     //       complete (res) {
     //         // 输出结果
     //         // console.log('上传成功', res)
-    //         // 设置为失败状态
+    //         // 设置为成功状态
     //         fileJson.status = 'done'
+    //         // 上传成功则清空 file 对象，因为只有失败才可能需要重新上传
+    //         fileJson.file = undefined
     //         // 回调结果
     //         if (uploadResult) { uploadResult(fileJson, res) }
     //       }
