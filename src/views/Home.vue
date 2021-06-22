@@ -4,6 +4,9 @@
     <!-- 上传组件 -->
     <upload :customRequestPro="customRequestPro" :beforeUploadPro="beforeUploadPro"></upload>
 
+    <!-- 启用拖拽上传组件 -->
+    <!-- <upload :isDragger="true" :customRequestPro="customRequestPro" :beforeUploadPro="beforeUploadPro"></upload> -->
+
     <!-- 上传组件 -->
     <!-- <upload :customRequestPro="customRequestPro">
       <span slot="up-title">三水上传</span>
