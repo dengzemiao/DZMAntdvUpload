@@ -70,7 +70,6 @@ export default {
       type: Boolean,
       default: () => false
     },
-
     // 接受上传的文件类型 
     // 参考地址：https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#unique_file_type_specifiers
     // 音频：'audio/*'
