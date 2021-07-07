@@ -451,7 +451,7 @@ export default {
       // 开始检测
       return new Promise((resolve, reject) => {
         // 获取本次上传唯一ID
-        const uploadId = this.getUploadId(fileList)
+        const uploadId = this.getUploadId()
 
         // ----------------------------- 公用检测 - 文件数量限制 --------
 
@@ -918,15 +918,9 @@ export default {
       fileJson.status = status
     },
     // 获取本次上传唯一ID
-    getUploadId (fileList) {
-      // 唯一标识符
-      var uploadId = ''
-      // 获取唯一标识符
-      fileList.forEach(item => {
-        uploadId += item.uid
-      })
+    getUploadId () {
       // 返回
-      return uploadId
+      return this.UUID()
     },
     // 是否存在本轮错误 uploadId
     isExistErrorUploadId (uploadId) {
@@ -1019,6 +1013,13 @@ export default {
       var type = filePath.substr(index + 1)
       // 返回类型
       return type.toLowerCase()
+    },
+    // 生成 UUID
+    UUID () {
+      // 生成随机字符串
+      function S4 () { return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1) }
+      // 拼接
+      return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4())
     }
   }
 }
