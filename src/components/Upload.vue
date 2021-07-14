@@ -540,10 +540,16 @@ export default {
               reject(new Error())
             })
           } else {
-            // 加入文件列表
-            this.fileList.push(fileJson)
-            // 允许上传
-            resolve()
+            // 准备上传 预处理
+            this.beforeUploadProReady(file, fileList, fileJson).then(() => {
+              // 加入文件列表
+              this.fileList.push(fileJson)
+              // 允许上传
+              resolve()
+            }).catch(() => {
+              // 不允许上传
+              reject(new Error())
+            })
           }
         } else {
           // 准备上传 预处理
