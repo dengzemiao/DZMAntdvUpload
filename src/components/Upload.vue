@@ -501,8 +501,8 @@ export default {
           if (this.fileCheckMode === 1) {
             // 本次选择的所有文件，检测失败的移除，成功的上传
             this.fileCheck(file, fileList, uploadId).then(() => {
-              // 准备上传 预处理 1
-              this.beforeUploadProReadyOne(file, fileList, fileJson).then(() => {
+              // 准备上传 预处理
+              this.beforeUploadProReady(file, fileList, fileJson).then(() => {
                 // 加入文件列表
                 this.fileList.push(fileJson)
                 // 允许上传
@@ -525,8 +525,8 @@ export default {
             })
             // 全部请求
             Promise.all(ps).then(() => {
-              // 准备上传 预处理 1
-              this.beforeUploadProReadyOne(file, fileList, fileJson).then(() => {
+              // 准备上传 预处理
+              this.beforeUploadProReady(file, fileList, fileJson).then(() => {
                 // 加入文件列表
                 this.fileList.push(fileJson)
                 // 允许上传
@@ -546,32 +546,21 @@ export default {
             resolve()
           }
         } else {
-          // 加入文件列表
-          this.fileList.push(fileJson)
-          // 允许上传
-          resolve()
+          // 准备上传 预处理
+          this.beforeUploadProReady(file, fileList, fileJson).then(() => {
+            // 加入文件列表
+            this.fileList.push(fileJson)
+            // 允许上传
+            resolve()
+          }).catch(() => {
+            // 不允许上传
+            reject(new Error())
+          })
         }
       })
     },
-    // 准备上传 - 预处理 1
-    beforeUploadProReadyOne (file, fileList, fileJson) {
-      // 预处理
-      return new Promise((resolve, reject) => {
-
-        // ----------------------------- 准备上传 - 预处理 2 --------
-        
-        // 准备上传 预处理
-        this.beforeUploadProReadyTwo(file, fileList, fileJson).then(() => {
-          // 允许上传
-          resolve()
-        }).catch(() => {
-          // 不允许上传
-          reject(new Error())
-        })
-      })
-    },
-    // 准备上传 - 预处理 2
-    beforeUploadProReadyTwo (file, fileList, fileJson) {
+    // 准备上传 - 预处理
+    beforeUploadProReady (file, fileList, fileJson) {
       // 预处理
       return new Promise((resolve, reject) => {
         // 外传回调
