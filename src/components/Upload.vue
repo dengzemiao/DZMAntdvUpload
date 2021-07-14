@@ -151,7 +151,7 @@ export default {
       type: Number,
       default: () => 1
     },
-    // 错误唯一标识（uploadId）存放（只在模式为 2 时生效）
+    // 错误唯一标识（uploadId）存放（只在 errorMode 模式为 1 时生效）
     errorUploadIds: {
       type: Array,
       default: () => []
@@ -393,7 +393,7 @@ export default {
           this.customRequestResult(fileJson, status)
         })
       } else {
-        this.$message.error('请自己实现 customRequestPro 自定义上传操作！')
+        this.showError('请自己实现 customRequestPro 自定义上传操作！')
         // 如果需要将上传写到内部这里，回调结果看情况自定义，外层通过 fileJson.status 判断成功失败即可
         // if (this.uploadResult) { this.uploadResult(fileJson, err || res) }
         // 例如：(七牛上传，给与参考，推荐将下面这段上传封装成一个公共 funcation 放到一个公告上传 js 文件中，当上传失败需要重新上传操作时，可以传入指定参数重新上传即可)
@@ -450,8 +450,20 @@ export default {
     beforeUpload (file, fileList) {
       // 开始检测
       return new Promise((resolve, reject) => {
-        // 获取本次上传唯一ID
-        const uploadId = this.getUploadId()
+
+        // ----------------------------- 公用赋值 - 配置上传本轮唯一ID --------
+
+        // 获取上传本轮唯一ID，检查 file 对象是否有带本轮唯一ID
+        var uploadId = file.uploadId
+        // 没有则是新的一轮选择，需要新获取本轮唯一ID
+        if (!uploadId) { 
+          // 获取到本轮唯一ID
+          uploadId = this.getUploadId()
+          // 全部文件进行赋值
+          fileList.forEach(item => {
+            item.uploadId = uploadId
+          })
+        }
 
         // ----------------------------- 公用检测 - 文件数量限制 --------
 
@@ -469,7 +481,7 @@ export default {
                 this.fileNumberErrorPro(file, fileList, uploadId)
               } else {
                 // 有错误文案
-                if (this.fileNumberError) { this.$message.error(this.fileNumberError) }
+                if (this.fileNumberError) { this.showError(this.fileNumberError) }
               }
             }
             // 不允许上传
@@ -501,16 +513,8 @@ export default {
           if (this.fileCheckMode === 1) {
             // 本次选择的所有文件，检测失败的移除，成功的上传
             this.fileCheck(file, fileList, uploadId).then(() => {
-              // 准备上传 预处理
-              this.beforeUploadProReady(file, fileList, fileJson).then(() => {
-                // 加入文件列表
-                this.fileList.push(fileJson)
-                // 允许上传
-                resolve()
-              }).catch(() => {
-                // 不允许上传
-                reject(new Error())
-              })
+              // 准备上传 预处理 结束
+              this.beforeUploadProEnd(file, fileList, fileJson, resolve, reject)
             }).catch(() => {
               // 不允许上传
               reject(new Error())
@@ -525,47 +529,36 @@ export default {
             })
             // 全部请求
             Promise.all(ps).then(() => {
-              // 准备上传 预处理
-              this.beforeUploadProReady(file, fileList, fileJson).then(() => {
-                // 加入文件列表
-                this.fileList.push(fileJson)
-                // 允许上传
-                resolve()
-              }).catch(() => {
-                // 不允许上传
-                reject(new Error())
-              })
+              // 准备上传 预处理 结束
+              this.beforeUploadProEnd(file, fileList, fileJson, resolve, reject)
             }).catch(() => {
               // 不允许上传
               reject(new Error())
             })
           } else {
-            // 准备上传 预处理
-            this.beforeUploadProReady(file, fileList, fileJson).then(() => {
-              // 加入文件列表
-              this.fileList.push(fileJson)
-              // 允许上传
-              resolve()
-            }).catch(() => {
-              // 不允许上传
-              reject(new Error())
-            })
+            // 准备上传 预处理 结束
+            this.beforeUploadProEnd(file, fileList, fileJson, resolve, reject)
           }
         } else {
-          // 准备上传 预处理
-          this.beforeUploadProReady(file, fileList, fileJson).then(() => {
-            // 加入文件列表
-            this.fileList.push(fileJson)
-            // 允许上传
-            resolve()
-          }).catch(() => {
-            // 不允许上传
-            reject(new Error())
-          })
+          // 准备上传 预处理 结束
+          this.beforeUploadProEnd(file, fileList, fileJson, resolve, reject)
         }
       })
     },
-    // 准备上传 - 预处理
+    // 准备上传 - 预处理 结束
+    beforeUploadProEnd (file, fileList, fileJson, resolve, reject) {
+      // 准备上传 预处理
+      this.beforeUploadProReady(file, fileList, fileJson).then(() => {
+        // 加入文件列表
+        this.fileList.push(fileJson)
+        // 允许上传
+        resolve()
+      }).catch(() => {
+        // 不允许上传
+        reject(new Error())
+      })
+    },
+    // 准备上传 - 预处理 开始
     beforeUploadProReady (file, fileList, fileJson) {
       // 预处理
       return new Promise((resolve, reject) => {
@@ -677,7 +670,7 @@ export default {
                   this.fileRepeatErrorPro(file, fileList, uploadId, repeatFiles)
                 } else {
                   // 有错误文案
-                  if (this.fileRepeatError) { this.$message.error(this.fileRepeatError) }
+                  if (this.fileRepeatError) { this.showError(this.fileRepeatError) }
                 }
               }
               // 检测失败
@@ -697,7 +690,7 @@ export default {
                   this.fileRepeatErrorPro(file, fileList, uploadId, repeatFiles)
                 } else {
                   // 有错误文案
-                  if (this.fileRepeatError) { this.$message.error(this.fileRepeatError) }
+                  if (this.fileRepeatError) { this.showError(this.fileRepeatError) }
                 }
               }
               // 检测失败
@@ -742,7 +735,7 @@ export default {
                 this.kbCompareErrorPro(file, fileList, uploadId)
               } else {
                 // 有错误文案
-                if (this.kbCompareError) { this.$message.error(this.kbCompareError) }
+                if (this.kbCompareError) { this.showError(this.kbCompareError) }
               }
             }
             // 检测失败
@@ -788,7 +781,7 @@ export default {
                     this.imgSizeErrorPro(file, fileList, uploadId)
                   } else {
                     // 有错误文案
-                    if (this.imgSizeError) { this.$message.error(this.imgSizeError) }
+                    if (this.imgSizeError) { this.showError(this.imgSizeError) }
                   }
                 }
                 // 检测失败
@@ -811,7 +804,7 @@ export default {
                     this.imgScaleErrorPro(file, fileList, uploadId)
                   } else {
                     // 有错误文案
-                    if (this.imgScaleError) { this.$message.error(this.imgScaleError) }
+                    if (this.imgScaleError) { this.showError(this.imgScaleError) }
                   }
                 }
                 // 检测失败
@@ -863,7 +856,7 @@ export default {
                     this.videSizeErrorPro(file, fileList, uploadId)
                   } else {
                     // 有错误文案
-                    if (this.videSizeError) { this.$message.error(this.videSizeError) }
+                    if (this.videSizeError) { this.showError(this.videSizeError) }
                   }
                 }
                 // 检测失败
@@ -886,7 +879,7 @@ export default {
                     this.videScaleErrorPro(file, fileList, uploadId)
                   } else {
                     // 有错误文案
-                    if (this.videScaleError) { this.$message.error(this.videScaleError) }
+                    if (this.videScaleError) { this.showError(this.videScaleError) }
                   }
                 }
                 // 检测失败
@@ -906,6 +899,11 @@ export default {
         // 检测成功
         resolve()
       })
+    },
+    // 显示错误，统一管理，方便替换
+    showError (message) {
+      // 显示错误
+      this.$message.error(message)
     },
     // 自定义上传结果
     customRequestResult (fileJson, status) {
