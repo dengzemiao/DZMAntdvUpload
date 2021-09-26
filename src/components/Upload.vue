@@ -302,7 +302,7 @@ export default {
 
     // =============================== 视频检查 - 宽高限制 ========
 
-    // 图片宽高检测模式（单位 px）: 
+    // 视频宽高检测模式（单位 px）: 
     // 0 -> 关闭
     // 1 -> 小于
     // 2 -> 大于
@@ -313,22 +313,22 @@ export default {
       type: Number,
       default: () => 0
     },
-    // 图片宽度（单位 px）
+    // 视频宽度（单位 px）
     videSizeWidth: {
       type: Number,
       default: () => 0
     },
-    // 图片高度（单位 px）
+    // 视频高度（单位 px）
     videSizeHeight: {
       type: Number,
       default: () => 0
     },
-    // 图片宽高检测失败提示
+    // 视频宽高检测失败提示
     videSizeError: {
       type: String,
       default: () => '视频宽高与设定宽高不匹配'
     },
-    // 图片宽高检测失败提示回调，实现这个将不使用 videSizeError
+    // 视频宽高检测失败提示回调，实现这个将不使用 videSizeError
     // 类型：(file, fileList, uploadId) => {}
     // uploadId：本次上传操作唯一ID，多选文件模式可通过该唯一ID只显示一次错误
     videSizeErrorPro: {
@@ -338,29 +338,29 @@ export default {
 
     // =============================== 视频检查 - 比例限制 ========
 
-    // 图片比例检测模式（单位 px）: 
+    // 视频比例检测模式（单位 px）: 
     // 0 -> 关闭
     // 1 -> 开启
     videScaleMode: {
       type: Number,
       default: () => 0
     },
-    // 图片宽度比例
+    // 视频宽度比例
     videScaleWidth: {
       type: Number,
       default: () => 0
     },
-    // 图片高度比例
+    // 视频高度比例
     videScaleHeight: {
       type: Number,
       default: () => 0
     },
-    // 图片比例检测失败提示
+    // 视频比例检测失败提示
     videScaleError: {
       type: String,
       default: () => '视频比例与设定比例不匹配'
     },
-    // 图片比例检测失败提示回调，实现这个将不使用 videScaleError
+    // 视频比例检测失败提示回调，实现这个将不使用 videScaleError
     // 类型：(file, fileList, uploadId) => {}
     // uploadId：本次上传操作唯一ID，多选文件模式可通过该唯一ID只显示一次错误
     videScaleErrorPro: {
