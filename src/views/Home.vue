@@ -1,6 +1,10 @@
 <template>
   <div class="home-view">
 
+    <!-- 注意：所有的《回调方法》都是通过绑定形式，不是通过 @ 符号形式进行关联 -->
+    <!-- :customRequestPro="customRequestPro"   √   正确写法 -->
+    <!-- @customRequestPro="customRequestPro"   ❌  错误写法 -->
+
     <!-- 上传组件 -->
     <upload :customRequestPro="customRequestPro" :beforeUploadPro="beforeUploadPro"></upload>
 
